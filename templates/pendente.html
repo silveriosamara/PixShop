@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento Pendente</title>
+
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center text-warning">O pagamento está pendente</h1>
+        <p class="text-center">Estamos aguardando a confirmação do pagamento. Assim que o pagamento for confirmado, atualizaremos o status da transação.</p>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('vendedor_home') }}" class="btn btn-primary">Voltar ao Painel</a>
+        </div>
+    </div>
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

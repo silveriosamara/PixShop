@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro no Pagamento</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="text-danger">Ocorreu um erro no pagamento!</h1>
+        <p>Por favor, tente novamente mais tarde.</p>
+        <a href="{{ url_for('vendedor_home') }}" class="btn btn-primary">Voltar ao Painel</a>
+    </div>
+</body>
+</html>

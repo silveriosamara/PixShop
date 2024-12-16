@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Vendas - Vendedor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .btn-cancel {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Histórico de Vendas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID da Venda</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venda in vendas %}
+            <tr>
+            <td>{{ venda['name'] }}</td> <!-- Nome do produto -->
+            <td>{{ venda['quantidade'] }}</td> <!-- Quantidade -->
+            <td>{{ venda['data_venda'] }}</td> <!-- Data da venda -->
+            <td>{{ venda['status'] }}</td> <!-- Status da venda -->
+            <td>
+                    <!-- Botão de exclusão -->
+                <form method="POST" action="{{ url_for('excluir_venda', venda_id=venda['id']) }}" onsubmit="return confirm('Tem certeza que deseja excluir esta venda?');">
+                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+
+                    {% if venda.status == 'completada' %}
+                    <form action="{{ url_for('cancelar_venda', sale_id=venda.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-cancel">Cancelar Venda</button>
+                    </form>
+                    {% else %}
+                    <span>Venda Cancelada</span>
+                    {% endif %}
+                           </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Botão para voltar à página inicial -->
+    <div style="text-align: center;">
+        <a href="{{ url_for('vendedor_home') }}" class="btn">Voltar à Página Inicial</a>
+    </div>
+</body>
+</html>

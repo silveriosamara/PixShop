@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos Cadastrados</title>
+
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Produtos Cadastrados</h2>
+
+        <!-- Tabela de produtos -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Quantidade</th>
+                        <th>Preço</th>
+                        <th>Comissão (%)</th> <!-- Novo campo de comissão -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto['id'] }}</td>
+                        <td>{{ produto['name'] }}</td>
+                        <td>{{ produto['description'] }}</td>
+                        <td>{{ produto['quantity'] }}</td>
+                        <td>R$ {{ produto['price'] }}</td>
+                        <td>
+                            <!-- Formulário para atualizar a comissão -->
+                            <form method="POST" action="{{ url_for('atualizar_comissao', id=produto['id']) }}">
+                                <input type="number" step="0.01" name="comissao" value="{{ produto['comissao'] }}" required>
+                                <button type="submit" class="btn btn-primary btn-sm">Atualizar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botão de retorno -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('gestor_home') }}" class="btn btn-primary">Voltar ao Início</a>
+        </div>
+    </div>
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+ </body>
+</html>

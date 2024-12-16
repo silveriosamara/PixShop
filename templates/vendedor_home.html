@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial do Vendedor</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        .btn-custom {
+            margin: 10px 5px;
+            width: 150px;
+            display: inline-block;
+            text-align: center;
+        }
+        .alert-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo, {{ username }}!</h1>
+        <p class="text-center">Esta é a página inicial do vendedor. Utilize os botões abaixo para acessar as funcionalidades.</p>
+
+        <!-- Botões de navegação -->
+        <div class="text-center">
+            <a href="{{ url_for('vendedor_produtos') }}" class="btn btn-info btn-custom">Ver Produtos</a>
+            <a href="{{ url_for('vendedor_historico_vendas') }}" class="btn btn-primary btn-custom">Histórico de Vendas</a>
+            <a href="{{ url_for('vendedor_comissoes') }}" class="btn btn-success btn-custom">Comissões</a>
+        </div>
+
+        <!-- Notificação de Vendas Recentes -->
+        {% if vendas_recentes %}
+        <div class="alert alert-info">
+            <strong>Vendas Recentes:</strong>
+            <ul>
+                {% for venda in vendas_recentes %}
+                <li>Produto: {{ venda.name }}, Quantidade: {{ venda.quantidade }}, Data: {{ venda.data_venda }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Botão para logout -->
+        <div class="text-center">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger btn-custom">Sair</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

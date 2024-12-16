@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venda de Produtos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h2, h3 {
+            color: #007bff;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background: #e9ecef;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .btn-primary, .btn-secondary {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Venda de Produtos</h2>
+
+    <!-- Formulário para registrar a venda -->
+    <form action="{{ url_for('realizar_venda') }}" method="POST" class="form-inline">
+        <div class="form-group mb-3">
+            <label for="produto" class="mr-2">Produto:</label>
+            <select name="produto_id" id="produto" class="form-control mr-3" required>
+                {% for produto in produtos %}
+                <option value="{{ produto.id }}">{{ produto.name }} - R$ {{ produto.price }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="quantidade" class="mr-2">Quantidade:</label>
+            <input type="number" name="quantidade" id="quantidade" class="form-control mr-3" min="1" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="email_cliente" class="mr-2">E-mail do Cliente:</label>
+            <input type="email" name="email_cliente" id="email_cliente" class="form-control mr-3" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrar Venda e Gerar QR Code</button>
+    </form>
+
+    <!-- Lista de Produtos Disponíveis -->
+    <h3>Produtos Disponíveis</h3>
+    <ul class="list-group">
+        {% for produto in produtos %}
+        <li class="list-group-item">
+            <strong>{{ produto.name }}</strong> (R$ {{ produto.price }}) - <span class="badge badge-info">Estoque: {{ produto.quantity }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Link para voltar ao painel do vendedor -->
+    <a href="{{ url_for('vendedor_home') }}" class="btn btn-secondary mt-4">Voltar ao Início</a>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

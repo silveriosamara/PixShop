@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Comissões - Gestor</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Gestão de Comissões</h2>
+
+        <h3 class="mt-4">Comissões Pendentes</h3>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Vendedor</th>
+                    <th>Valor da Venda</th>
+                    <th>Comissão</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comissao in comissoes %}
+                <tr>
+                    <td>{{ comissao['username'] }}</td>
+                    <td>R$ {{ comissao['total'] }}</td>
+                    <td>R$ {{ comissao['comissao'] }}</td>
+                    <td>{{ comissao['status'] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('pagar_comissao', comissao_id=comissao['id']) }}">
+                            <button type="submit" class="btn btn-success">Marcar como Pago</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('gestor_home') }}" class="btn btn-primary">Voltar ao Início</a>
+        </div>
+    </div>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

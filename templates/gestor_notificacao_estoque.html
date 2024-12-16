@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificação de Estoque Baixo</title>
+
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Notificação de Estoque Baixo</h2>
+
+        {% if produtos %}
+        <div class="alert alert-warning text-center">
+            <p>Os seguintes produtos estão com estoque abaixo de {{ LIMITE_ESTOQUE_BAIXO }} unidades:</p>
+            <ul class="list-group">
+                {% for produto in produtos %}
+                <li class="list-group-item">
+                    <strong>{{ produto.name }}:</strong> {{ produto.quantity }} unidades restantes
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class="alert alert-success text-center">
+            <p>Todos os produtos estão com estoque suficiente.</p>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('gestor_home') }}" class="btn btn-primary">Voltar à Página Inicial</a>
+        </div>
+    </div>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

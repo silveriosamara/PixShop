@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comissões Pendentes - Gestor</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Comissões Pendentes</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID da Venda</th>
+                    <th>Produto</th>
+                    <th>Quantidade Vendida</th>
+                    <th>Total (R$)</th>
+                    <th>Comissão (R$)</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comissao in comissoes_pendentes %}
+                <tr>
+                    <td>{{ comissao['id'] }}</td>
+                    <td>{{ comissao['product_id'] }}</td>
+                    <td>{{ comissao['quantity_sold'] }}</td>
+                    <td>{{ comissao['total_amount'] }}</td>
+                    <td>{{ comissao['commission'] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('pagar_comissao', comissao_id=comissao['id']) }}">
+                            <button type="submit" class="btn btn-success">Marcar como Paga</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

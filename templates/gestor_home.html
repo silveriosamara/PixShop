@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Gestor</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Painel do Gestor</h1>
+
+        <!-- Notificação de Estoque Baixo -->
+        {% if produtos_baixo_estoque %}
+        <div class="alert alert-warning text-center">
+            <strong>Atenção!</strong> Os seguintes produtos estão com estoque abaixo de {{ LIMITE_ESTOQUE_BAIXO }} unidades:
+            <ul>
+                {% for produto in produtos_baixo_estoque %}
+                <li>{{ produto.name }}: {{ produto.quantity }} unidades restantes</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Notificação de Vendas Recentes -->
+        {% if vendas_recentes %}
+        <div class="alert alert-info text-center">
+            <strong>Vendas Recentes:</strong>
+            <ul>
+                {% for venda in vendas_recentes %}
+                <li>Vendedor: {{ venda.username }}, Produto: {{ venda.name }}, Quantidade: {{ venda.quantidade }}, Data: {{ venda.data_venda }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+</div>
+
+        <!-- Lista de Produtos -->
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.name }}</td>
+                    <td>{{ produto.description }}</td>
+                    <td>{{ produto.quantity }}</td>
+                    <td>R$ {{ produto.price }}</td>
+                    <td>
+                        <form action="{{ url_for('remover_produto', produto_id=produto.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Formulário para adicionar novo produto -->
+        <h2 class="text-center">Adicionar Novo Produto</h2>
+        <form action="{{ url_for('gestor_produtos') }}" method="POST" class="form-inline justify-content-center">
+            <input type="text" name="name" class="form-control mb-2 mr-sm-2" placeholder="Nome do Produto" required>
+            <input type="text" name="description" class="form-control mb-2 mr-sm-2" placeholder="Descrição" required>
+            <input type="number" name="quantity" class="form-control mb-2 mr-sm-2" placeholder="Quantidade" required>
+            <input type="number" step="0.01" name="price" class="form-control mb-2 mr-sm-2" placeholder="Preço" required>
+            <button type="submit" class="btn btn-success mb-2">Adicionar Produto</button>
+        </form>
+
+        <!-- Botões de navegação e relatórios -->
+        <div class="d-flex justify-content-center mt-4">
+            <a href="{{ url_for('gestor_produtos') }}" class="btn btn-primary mr-2">Produtos Cadastrados</a>
+            <a href="{{ url_for('relatorio_vendas_gestor') }}" class="btn btn-primary mr-2">Relatório de Vendas</a>
+            <a href="{{ url_for('relatorio_comissoes_gestor') }}" class="btn btn-secondary mr-2">Relatório de Comissões</a>
+            <a href="{{ url_for('relatorio_estoque') }}" class="btn btn-info mr-2">Relatório de Estoque</a>
+            <a href="{{ url_for('notificacao_estoque_baixo') }}" class="btn btn-warning mr-2">Estoque Baixo</a>
+        </div>
+
+        <!-- Botões de exportação de relatórios -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('exportar_relatorio_vendas_csv') }}" class="btn btn-primary">Exportar Relatório de Vendas (CSV)</a>
+            <a href="{{ url_for('exportar_relatorio_vendas_pdf') }}" class="btn btn-secondary">Exportar Relatório de Vendas (PDF)</a>
+        </div>
+
+        <!-- Botão de Logout -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+
+     <!-- Canvas onde o gráfico será desenhado -->
+        <div class="my-5">
+            <h3 class="text-center">Estoque Atual dos Produtos</h3>
+            <canvas id="estoqueChart" width="400" height="200"></canvas>
+
+        <script>
+            var ctx = document.getElementById('estoqueChart').getContext('2d');
+            var estoqueChart = new Chart(ctx, {
+                type: 'bar',  // Tipo de gráfico (pode ser bar, line, pie, etc)
+                data: {
+                    labels: [
+                        {% for produto in produtos %}
+                            '{{ produto.name }}',
+                        {% endfor %}
+                    ],  // Nomes dos produtos
+                    datasets: [{
+                        label: 'Estoque Atual',
+                        data: [
+                            {% for produto in produtos %}
+                                {{ produto.quantity }},
+                            {% endfor %}
+                        ],  // Quantidade de cada produto
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+        </div>
+    <!-- Scripts Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

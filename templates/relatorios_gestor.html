@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios de Vendas e Comissões - Gestor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Relatórios de Vendas e Comissões</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID da Venda</th>
+                <th>Produto</th>
+                <th>Vendedor</th>
+                <th>Quantidade Vendida</th>
+                <th>Data da Venda</th>
+                <th>Total da Venda (R$)</th>
+                <th>Comissão (R$)</th>
+                <th>Status da Comissão</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venda in vendas %}
+            <tr>
+                <td>{{ venda.id }}</td>
+                <td>{{ venda.produto }}</td>
+                <td>{{ venda.vendedor }}</td>
+                <td>{{ venda.quantidade }}</td>
+                <td>{{ venda.data_venda }}</td>
+                <td>R$ {{ venda.total_venda }}</td>
+                <td>R$ {{ venda.total_comissao }}</td>
+                <td>{{ venda.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Botão para voltar à página inicial do gestor -->
+    <a href="{{ url_for('gestor_home') }}" class="btn">Voltar ao Início</a>
+</body>
+</html>
+

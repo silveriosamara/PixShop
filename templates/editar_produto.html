@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Editar Produto</h2>
+        <form method="POST" action="{{ url_for('editar_produto', produto_id=produto['id']) }}">
+            <div class="form-group">
+                <label for="nome">Nome do Produto:</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{ produto['nome'] }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea class="form-control" id="descricao" name="descricao" required>{{ produto['descricao'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" class="form-control" id="quantidade" name="quantidade" value="{{ produto['quantidade'] }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="preco">Preço (R$):</label>
+                <input type="number" class="form-control" step="0.01" id="preco" name="preco" value="{{ produto['preco'] }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="{{ url_for('gestor_home') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+
+        <hr>
+
+        <h3>Lista de Produtos</h3>
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto['nome'] }}</td>
+                    <td>{{ produto['descricao'] }}</td>
+                    <td>{{ produto['quantidade'] }}</td>
+                    <td>R$ {{ produto['preco'] }}</td>
+                    <td>
+                        <a href="{{ url_for('editar_produto', produto_id=produto['id']) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{{ url_for('remover_produto', produto_id=produto['id']) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+
